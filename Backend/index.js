@@ -13,6 +13,7 @@ var cors = require('cors');
 var bcrypt = require('bcryptjs');
 var {Users} = require('./models/user');
 var {Properties} = require('./models/property');
+var {Events} = require('./models/event')
 var {Bookings} = require('./models/booking');
 var {Messages} = require('./models/message');
 var {mongoose} = require('./db/mongoose');
@@ -350,41 +351,120 @@ app.get('/getProfile', function(req,res){
 //     });
  })
 
-// //Add property
-  app.post('/addProperty',function(req,res){
+// //Add property=======Working========
+//   app.post('/addProperty',function(req,res){
+//     //=================Without Kafka===============
+//             console.log("Inside add property") 
+//             console.log("session: " , req.session.user)
+//             console.log(req.body.address)  
+//             console.log(req.body.headline)  
+//             console.log(req.body.type)  
+//             console.log(req.body.description)  
+//             console.log(req.body.bedroom)  
+//             console.log(req.body.accomodate)  
+//             console.log(req.body.bathroom) 
+//             console.log(req.body.images) 
+//             console.log(req.body.startdate)  
+//             console.log(req.body.enddate)  
+//             console.log(req.body.baserate)  
+
+
+//         var property = new Properties({
+//             oemailid : req.session.user.emailid,
+//             address : req.body.address,
+//             headline : req.body.headline,
+//             type : req.body.type,
+//             description : req.body.description,
+//             bedroom : req.body.bedroom,
+//             accomodate : req.body.accomodate,
+//             bathroom : req.body.bathroom,
+//             availablestartdate : req.body.startdate,
+//             availableenddate : req.body.enddate,
+//             baserate : req.body.baserate,
+//             picturelist : req.body.images
+//         })
+//                 property.save()
+//                 .then((property) => {
+//                     console.log("Property added : " + property);
+//                     res.sendStatus(200).end();
+//                 },(err) =>{
+//                     res.sendStatus(400).end();
+//                 }) 
+// //     //=========Kafka============
+// //     var msg = {
+// //         oemailid : req.session.user.emailid,
+// //         address : req.body.address,
+// //         state : req.body.state,
+// //         country : req.body.country,
+// //         street : req.body.street,
+// //         zipcode : req.body.zipcode,
+// //         headline : req.body.headline,
+// //         type : req.body.type,
+// //         description : req.body.description,
+// //         bedroom : req.body.bedroom,
+// //         accomodate : req.body.accomodate,
+// //         bathroom : req.body.bathroom,
+// //         availablestartdate : req.body.startdate,
+// //         availableenddate : req.body.enddate,
+// //         baserate : req.body.baserate,
+// //         picturelist : req.body.images
+// //     }
+
+// //     console.log("--Inside add property--");
+// //     kafka.make_request('addproperty',msg, function(err,results){
+// //     console.log('in result');
+// //     console.log(results);
+// //     if (err){
+// //         console.log("Inside err");
+// //         res.json({
+// //             status:"error",
+// //             msg:"System Error, Try Again."
+// //         })
+// //     } 
+// //     else{
+// //                 res.code = "200";
+// //                 res.value = results.value;
+// //                 res.sendStatus(200).end();
+// //         }
+    
+// // });
+
+//  });
+
+//Add event
+  app.post('/postevent',function(req,res){
     //=================Without Kafka===============
-            console.log("Inside add property") 
+            console.log("Inside create event") 
             console.log("session: " , req.session.user)
-            console.log(req.body.address)  
-            console.log(req.body.headline)  
-            console.log(req.body.type)  
-            console.log(req.body.description)  
-            console.log(req.body.bedroom)  
-            console.log(req.body.accomodate)  
-            console.log(req.body.bathroom) 
-            console.log(req.body.images) 
-            console.log(req.body.startdate)  
-            console.log(req.body.enddate)  
-            console.log(req.body.baserate)  
+            console.log(req.body.eventname)  
+            console.log(req.body.eventdesc)  
+            console.log(req.body.eventdate)  
+            console.log(req.body.starttime)  
+            console.log(req.body.eventduration)  
+            console.log(req.body.venuedetails)  
+            console.log(req.body.venuecity) 
+            console.log(req.body.venuestate) 
+            console.log(req.body.venuezipcode)  
+            console.log(req.body.venuecountry)   
 
 
-        var property = new Properties({
+        var event = new Events({
             oemailid : req.session.user.emailid,
-            address : req.body.address,
-            headline : req.body.headline,
-            type : req.body.type,
-            description : req.body.description,
-            bedroom : req.body.bedroom,
-            accomodate : req.body.accomodate,
-            bathroom : req.body.bathroom,
-            availablestartdate : req.body.startdate,
-            availableenddate : req.body.enddate,
-            baserate : req.body.baserate,
+            address : req.body.eventname,
+            headline : req.body.eventdesc,
+            type : req.body.eventdate,
+            description : req.body.starttime,
+            bedroom : req.body.eventduration,
+            accomodate : req.body.venuedetails,
+            bathroom : req.body.venuecity,
+            availablestartdate : req.body.venuestate,
+            availableenddate : venuezipcode,
+            baserate : venuecountry,
             picturelist : req.body.images
         })
-                property.save()
-                .then((property) => {
-                    console.log("Property added : " + property);
+                event.save()
+                .then((event) => {
+                    console.log("Event created : " + event);
                     res.sendStatus(200).end();
                 },(err) =>{
                     res.sendStatus(400).end();
@@ -430,43 +510,15 @@ app.get('/getProfile', function(req,res){
 
  });
 
-app.post('/searchproperties',  async function(req,res){
-    console.log("Inside search" + req.body.start_date + " " + req.body.end_date);
 
-    const excludeProperties = await  Bookings.find
-    ({
-        $or : [
-                 { 
-                   $and : [ 
-                           {bookedstartdate : {$lte : req.body.start_date}},
-                           {bookedenddate : {$gte : req.body.start_date}}
-                         ]
-                 },
-                 { 
-                    $and : [ 
-                        {bookedstartdate : {$lte : req.body.end_date}},
-                        {bookedenddate : {$gte :  req.body.end_date}}
-                      ]
-                 }
-               ]
-      },
-      {pid : 1, _id: 0} 
-      )
-      console.log("exclude" + excludeProperties)
-      var excludePropertiesArray = []
-      for(let i = 0; i < excludeProperties.length; i++){
-          //console.log(excludeProperties[i].pid)
-          excludePropertiesArray.push(excludeProperties[i].pid)
-      }
-      console.log("array" + excludePropertiesArray)
-      
+
+app.post('/searchproperties',  async function(req,res){
+    console.log("Inside search" + req.body.start_date);
+
       Properties.find(
           {$and: [
-              {_id : {$nin : excludePropertiesArray}} ,
-                {address : req.body.destination} , 
-                {accomodate : {$gte :  req.body.accomodates }} , 
-                {availablestartdate : {$lte : req.body.start_date}}, 
-                {availableenddate : {$gte : req.body.end_date}}
+                {address : req.body.destination},
+                {availablestartdate : {$gte : req.body.start_date}}, 
             ]
         }, 
         function(err, properties) 
@@ -478,6 +530,26 @@ app.post('/searchproperties',  async function(req,res){
             else
             {
                 console.log("Searched properties " + properties);
+                res.status(200).send(JSON.stringify(properties))
+            }
+        });
+    
+})
+
+//Get events
+app.get('/getevents',  function(req,res){
+
+      Properties.find({
+        }, 
+        function(err, properties) 
+        {
+            if (err)
+            {
+                res.send(err);
+            }
+            else
+            {
+                console.log("Searched events " + properties);
                 res.status(200).send(JSON.stringify(properties))
             }
         });

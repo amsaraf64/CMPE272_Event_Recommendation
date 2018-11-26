@@ -5,7 +5,7 @@ import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateEvent } from "../../actions";
+import { postEvent } from "../../actions";
 import swal from 'sweetalert'
 import jwtdecode from 'jwt-decode';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
@@ -21,12 +21,14 @@ class HostEvent extends Component {
             eventdescription: null,
             eventdate : null,
             starttime : null,
-            duration : null,
-            venue : null,
-            city : null,
-            state : null,
-            zip : null,
-            country : null
+            eventduration : null,
+            eventvenue : null,
+            eventcity : null,
+            eventstate : null,
+            eventzip : null,
+            eventcountry : null,
+            eventflag : false,
+            images : ''
         };
     };
         //get the profile data from backend  
@@ -46,22 +48,20 @@ class HostEvent extends Component {
                                 eventdescription : event.eventdescription,
                                 eventdate : event.eventdate,
                                 starttime : event.starttime,
-                                duration : event.duration,
-                                venue : event.venue,
-                                city : event.city,
-                                state : event.state,
-                                zip : event.zip,
-                                country : event.country
+                                eventduration : event.duration,
+                                eventvenue : event.venue,
+                                eventcity : event.city,
+                                eventstate : event.state,
+                                eventzip : event.zip,
+                                eventcountry : event.country,
+                                images : event.images
                             }
                         );
                         
                     });
-                                        
-                    
 
                 });
-
-                
+             
         }
 
     handleEventName = (e) => {
@@ -88,56 +88,73 @@ class HostEvent extends Component {
         })
     }
 
-    handleDuration = (e) => {
+    handleEventDuration = (e) => {
         this.setState({
-            duration : e.target.value
+            eventduration : e.target.value
         })
     }
 
-    handleVenue = (e) => {
+    handleEventVenue = (e) => {
         this.setState({
-            venue : e.target.value
+            eventvenue : e.target.value
         })
     }
-    handleCity = (e) => {
+    handleEventCity = (e) => {
         this.setState({
-            city : e.target.value
+            eventcity : e.target.value
         })
     }
-    handleState = (e) => {
+    handleEventState = (e) => {
         this.setState({
-            state : e.target.value
+            eventstate : e.target.value
         })
     }
-    handleZip = (e) => {
+    handleEventZip = (e) => {
         this.setState({
-            zip : e.target.value
+            eventzip : e.target.value
         })
     }
-    handleCountry = (e) => {
+    handleEventCountry = (e) => {
         this.setState({
-            country : e.target.value
+            eventcountry : e.target.value
         })
     }
 
 
     onChange = (e) => {
-        console.log("Inside profile on change" + e.target.files[0])
+        console.log("Inside onchange")
+        console.log(e.target.files);
         if(e.target.name == 'selectedFile'){
           this.setState({
-            selectedFile: e.target.files[0]
+            selectedFile: e.target.files
           })
-
+          
         }else{
-          this.setState({ [e.target.name]: e.target.value });
-        }
+          this.setState({ 
+              [e.target.name]: e.target.value
+        });
 
+        const { description, selectedFile} = this.state;
         let formData = new FormData();
- 
-        formData.append('selectedFile', e.target.files[0]);
-      /*   formData.append('emailid',this.state.emailid); */
-        
-        
+        formData.append('description', description);
+        for(let i = 0 ; i < Object.keys(this.state.selectedFile).length ; i++)
+        {
+        formData.append('selectedFile', selectedFile[i]);
+        }
+  
+          axios.post('http://localhost:3001/photos', formData)
+            .then((result) => {
+                if (result.status===200)
+                {
+                    this.setState({
+                        eventflag : true,
+                        images : result.data        //name of file
+                    })
+                }
+
+            });
+    
+        }   
     }
   
 
@@ -153,10 +170,11 @@ class HostEvent extends Component {
             city : this.state.city,
             state : this.state.state,
             zip : this.state.zip,
-            country : this.state.country
+            country : this.state.country,
+            images : this.state.images
         }
         
-        this.props.updateEvent(values);
+        this.props.postEvent(values);
         
     
         
@@ -197,30 +215,39 @@ class HostEvent extends Component {
                 </div>
 
                 <div>
-                    <input type="text" onChange = {this.handleEventDescription} class="form-control input-lg js-input-field" id="hostEventDuration" placeholder="Event Duration" value={this.state.duration}></input>
+                    <input type="text" onChange = {this.handleEventDescription} class="form-control input-lg js-input-field" id="hostEventDuration" placeholder="Event Duration" value={this.state.eventduration}></input>
                 </div>
                 <div className = "profile-form-inner"></div>
                     <h3>Venue Details</h3>
 
                 <div>
-                    <input type="text" onChange = {this.handleVenue} class="form-control input-lg js-input-field" id="eventVenue" placeholder="Venue Details" value={this.state.venue}></input>
+                    <input type="text" onChange = {this.handleEventVenue} class="form-control input-lg js-input-field" id="eventVenue" placeholder="Venue Details" value={this.state.eventvenue}></input>
                 </div>
                 <div>
-                    <input type="text" onChange = {this.handleCity} class="form-control input-lg js-input-field" id="eventCity" placeholder="City" value={this.state.city}></input>
+                    <input type="text" onChange = {this.handleEventCity} class="form-control input-lg js-input-field" id="eventCity" placeholder="City" value={this.state.eventcity}></input>
                 </div>
                 <div>
-                    <input type="text" onChange = {this.handleState} class="form-control input-lg js-input-field" id="eventState" placeholder="State" value={this.state.state}></input>
+                    <input type="text" onChange = {this.handleEventState} class="form-control input-lg js-input-field" id="eventState" placeholder="State" value={this.state.eventstate}></input>
                 </div>
                 <div>
-                    <input type="number" onChange = {this.handleZip} class="form-control input-lg js-input-field" id="eventZip" placeholder="Zip code" value={this.state.zip}></input>
+                    <input type="text" onChange = {this.handleEventZip} class="form-control input-lg js-input-field" id="eventZip" placeholder="Zip code" value={this.state.eventzip}></input>
                 </div>
 
                 <div>
-                    <input type="text" onChange = {this.handleCountry} class="form-control input-lg js-input-field" id="eventCountry" placeholder="Country" value={this.state.country}></input>
+                    <input type="text" onChange = {this.handleEventCountry} class="form-control input-lg js-input-field" id="eventCountry" placeholder="Country" value={this.state.eventcountry}></input>
                 </div>
                 
                 
+                 <div class="photos-drop-inside">
+                    <h2 class="photo-drop-title text-muted">Drop photos here</h2>
+                    <h2 class="photo-drop-OR text-muted">or</h2>
+                   
+                 <div><label  for="uploadPhotoInput" name="description" value={description}
+                    onChange={this.onChange} multiple class="photo-drop-button btn btn-default center-block">Select Photos to Upload</label>
+                 <input type="file" id="uploadPhotoInput" multiple name="selectedFile" onChange={this.onChange}/>
+                 </div>
 
+                 </div>
                 
               
             </div>
@@ -246,20 +273,6 @@ class HostEvent extends Component {
             <div>
             <NavBarBlue></NavBarBlue>
 
-            
-            
-            <div class="text-center">
-                    
-                    <div>
-                    <label  for="uploadPhotoInput" name="description" value={description}
-                    onChange={this.onChange} multiple >
-                    </label>
-                    <input type="file" id="uploadPhotoInput" name="selectedFile" onChange={this.onChange} multiple/>
-                    </div>
-                    <h2 class="user-name">{this.state.firstname}</h2>
-                    
-            </div>
-
             <div className = "profile-form-main">
               {EventDetails}
             </div>
@@ -277,4 +290,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps, {updateEvent})(HostEvent);
+export default connect(mapStateToProps, {postEvent})(HostEvent);

@@ -7,12 +7,12 @@ import { searchProperties } from "../../actions";
 import { fetchpropertydetails } from "../../actions";
 import { bindActionCreators } from 'redux';
 import _ from 'lodash'
-import "./SearchResults.css"
+import './Recommendations.css'
 import swal from 'sweetalert'
 import { values } from 'redux-form';
 
 //create the sidebar Component
-class SearchResults extends Component {
+class Recommendations extends Component {
     constructor(props){
         super(props);  
         this.state = {
@@ -34,18 +34,22 @@ class SearchResults extends Component {
     }
 
     async componentDidMount(){
-        
-        //var searchdata =  JSON.parse(localStorage.getItem('searchdata')); 
-        if(Object.keys(this.props.searchresults.data).length === 0);
-        {
-   
-        await this.setState(
-            {
-                propertiesdata : this.state.propertiesdata.concat(this.props.searchresults.data)
-            }
-        )
 
-        }
+        await axios.get('http://localhost:3001/getevents')
+        .then(response => {
+            if(response.status == 200){
+                this.setState({
+                    searched : true,
+                    propertiesdata : this.state.propertiesdata.concat(response.data)
+                })
+
+            }else{
+                this.setState({
+                    searched : false
+                })
+            }
+        })        
+        
 
         if(this.state.propertiesdata.length === 0)
         {   
@@ -64,7 +68,7 @@ class SearchResults extends Component {
                     });
                 });
         }
-    }
+     }
         
         
     }
@@ -137,7 +141,6 @@ class SearchResults extends Component {
         const indexOfLastPage = current * itemsPerPage;
         const indexOfFirstPage = indexOfLastPage - itemsPerPage;
         const paginatedproperties = this.state.propertiesdata.slice(indexOfFirstPage, indexOfLastPage);
-        console.log("Number of properties : " + this.state.propertiesdata.length);
         
         const pageNumbers = [];
         for (let i = 1; i <= Math.ceil(this.state.propertiesdata.length / itemsPerPage); i++) {
@@ -190,6 +193,7 @@ class SearchResults extends Component {
         return(
             <div>
             <NavBarBlue></NavBarBlue>
+
             <div class="container">
                     <h2>List of Available Properties</h2>    
 
@@ -223,7 +227,7 @@ class SearchResults extends Component {
 
                                        
              </div> 
-               {/*  {showPageNumbers} */}
+                {/* {showPageNumbers} */}
                 <nav aria-label="...">
                 <ul class="pagination">
                     {showPageNumbers}
@@ -252,4 +256,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ searchProperties, fetchpropertydetails }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(mapStateToProps, mapDispatchToProps)(Recommendations);

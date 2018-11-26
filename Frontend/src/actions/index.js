@@ -24,6 +24,7 @@ export const SEND_MESSAGE_SUCCESSFUL = "SEND_MESSAGE_SUCCESSFUL"
 export const GET_MESSAGELIST_SUCCESSFUL= "GET_MESSAGELIST_SUCCESSFUL"
 export const GET_MESSAGETHREAD_SUCCESSFUL = "GET_MESSAGETHREAD_SUCCESSFUL"
 export const STORE_MESSAGE_SUCCESSFUL = "STORE_MESSAGE_SUCCESSFUL"
+export const EVENT_POST_SUCCESSFUL = "EVENT_POST_SUCCESSFUL"
 
 const ROOT_URL = "http://localhost:3001";
 
@@ -182,28 +183,6 @@ export const updateProfile =  (values) => async dispatch =>  {
   axios.defaults.withCredentials = true;
     const res = await axios
     .post(`${ROOT_URL}/updateprofile`, values)
-    /* .then(res  => { */
-      console.log("res profile" +  res.status ); 
-      console.log(res)
-      if(res.status === 200){ 
-      dispatch({
-        type : PROFILE_POST_SUCCESSFUL,
-        payload : res
-      })}/* else {
-        console.log("res" + res);
-        dispatch({
-          type : PROFILE_POST_FAILED,
-          payload: false
-        })
-      } */
-    //})
-}
-
-export const updateEvent =  (values) => async dispatch =>  {
-  console.log("inside submit profile")
-  axios.defaults.withCredentials = true;
-    const res = await axios
-    .post(`${ROOT_URL}/updateevent`, values)
     /* .then(res  => { */
       console.log("res profile" +  res.status ); 
       console.log(res)
@@ -433,3 +412,25 @@ export const storemessage =  (values) => async dispatch =>  {
       } */
     //})
 } 
+
+export const postEvent =  (values) => async dispatch =>  {
+  console.log("inside submit profile")
+  axios.defaults.withCredentials = true;
+    const res = await axios
+    .post(`${ROOT_URL}/updateevent`, values)
+    /* .then(res  => { */
+      console.log("res profile" +  res.status ); 
+      console.log(res)
+      if(res.status === 200){ 
+      dispatch({
+        type : EVENT_POST_SUCCESSFUL,
+        payload : res
+      })}/* else {
+        console.log("res" + res);
+        dispatch({
+          type : PROFILE_POST_FAILED,
+          payload: false
+        })
+      } */
+    //})
+}

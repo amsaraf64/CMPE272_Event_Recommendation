@@ -50,7 +50,7 @@ class OwnerLogin extends Component{
             //redirect based on successful login
             let redirectVar = null;
             if(localStorage.getItem('usertoken') && this.props.authFlag === true){
-              redirectVar = <Redirect to= "/homepage"/>
+              redirectVar = <Redirect to= "/profile"/>
             } 
         return(
             <div>

@@ -321,23 +321,23 @@ class HomePage extends Component {
 
 <div className="row">
   <div className="col-lg-4">
-    <img className="img-circle" src={img1} alt="Generic placeholder image" width="140" height="140"/>
+  <img className="img-circle" src={img1} alt="Generic placeholder image" width="140" height="140"/>
     <h2>Host an Event</h2>
     <p>In the mood for hosting a party, talk show, workshop, concert, or any event? We got it all covered for you!
     "MeetUps" provides an excellent platform to host events. To top it up, we provide you with an estimate of the attendance for the event which can help you plan much better! Go ahead and try our unique feature.</p>
     <p><Link to="/hostevent" className="btn btn-default" href="#" role="button">Details &raquo;</Link></p>
   </div>
   <div className="col-lg-4">
-    <img className="img-circle" src={img2} alt="Generic placeholder image" width="140" height="140"/>
+  <img className="img-circle" src={img2} alt="Generic placeholder image" width="140" height="140"/>
     <h2>View Recommendations</h2>
     <p>Dive in for an ultimate experience of events specially handpicked for you. Through our efficient learning algorithm, we have come up with a method to recommend the best of the best events satisfying all your information.</p>
-    <p><button className="btn btn-default" href="#" role="button">View details &raquo;</button></p>
+    <p><Link to="/eventrecommendation" className="btn btn-default" href="#" role="button">Next &raquo;</Link></p>
   </div>
   <div className="col-lg-4">
-    <img className="img-circle" src={img3} alt="Generic placeholder image" width="140" height="140"/>
+  <img className="img-circle" src={img3} alt="Generic placeholder image" width="140" height="140"/>
     <h2>Search Events</h2>
-    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-    <p><button className="btn btn-default" href="#" role="button">View details &raquo;</button></p>
+    <p>Attending an event is an opportunity to meet new people, network, improve business opportunities, and have fun. Do more of what you love! Adventure is just a click away. Explore the endless opportunities that MeetUp can offer you.</p>
+    <p><Link to="/searchevent" className="btn btn-default" href="#" role="button">Next &raquo;</Link></p>
   </div>
 </div>
 

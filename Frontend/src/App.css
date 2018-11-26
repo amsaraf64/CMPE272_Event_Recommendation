@@ -45,7 +45,7 @@
 
 .bg {
   /* background-image: url("./images/large.jpg"); */
-  background-image: url("./images/large2.jpg");
+  background-image: url("./images/lights.jpg");
   height: 670px;
   background-color: rgba(0, 0, 0, 0.5);
   background-position: center;
@@ -84,7 +84,7 @@
 .where
 {
   height : 50px;
-  width: 28%
+  width: 48%
 }
 
 .footer-flex
@@ -112,7 +112,7 @@
 .form-landing
 {
   height: 50px;
-  width : 18%
+  width : 28%
 }
 
 .home-inputs
@@ -163,4 +163,8 @@ h6:before, h6:after{
 
 .site-header-list-your-property{
   height: 50px
+}
+
+.searchform{
+  margin-top : 2%
 }

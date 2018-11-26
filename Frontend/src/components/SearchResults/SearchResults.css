@@ -49,3 +49,7 @@ container .container-traveler{
   .pagination{
     padding-left: 550px;
 }
+
+.list-props.props-group-traveler-book-now {
+    margin-top: 30%;
+}

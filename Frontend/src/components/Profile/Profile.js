@@ -250,7 +250,7 @@ class Profile extends Component {
                 </div>
 
                 <div>
-                    <input type="text" onChange = {this.handleCityCountry} class="form-control input-lg js-input-field" id="profileCityCountryInput" placeholder="My City" value={this.state.citycountry}></input>
+                    <input type="text" onChange = {this.handleCityCountry} class="form-control input-lg js-input-field" id="profileCityCountryInput" placeholder="My City, My State" value={this.state.citycountry}></input>
                 </div>
 
                 <div>

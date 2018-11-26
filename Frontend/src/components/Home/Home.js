@@ -9,6 +9,7 @@ import { searchProperties } from "../../actions";
 import {Redirect} from 'react-router';
 import jwtdecode from 'jwt-decode';
 import swal from 'sweetalert'
+import NavBarBlue from '../NavBarBlue/NavBarBlue';
 
 //create the Landing Component
 class Home extends Component {
@@ -150,67 +151,22 @@ class Home extends Component {
         <div>
         {redirectVar}
         <div className="bg">
-
-        <nav className="navbar navigation-bar">
-        <div className="container-fluid">
-            <div className="navbar-header">
-            <Link to = "/home"><img src = {homeawaylogo} height="50" width="200"></img></Link>
-            </div>
-            <div className = "navbar nav navbar-right">
-            <ul className="nav navbar-nav" >
-            <li className="active"><Link to="#"><font color="white">TripBoards</font></Link></li>
-            
-
-            <li className="dropdown">
-                <a className="dropdown-toggle" data-toggle="dropdown" href="#"><font color="white">{this.state.username}</font>
-                <span className="caret"></span></a>
-                <ul className="dropdown-menu">
-                <li><Link to="/profile">My profile</Link></li>
-                {/* <li><Link to="/landing" onClick = {this.handleLogout}>Logout</Link></li> */}
-                <li><a href="/landing" onClick = {this.handleLogout}>Logout</a></li>
-                </ul>
-            </li>
-        
-            <li className="dropdown">
-            <a className="dropdown-toggle" data-toggle="dropdown" href="#"><font color="white">Help</font>
-            <span className="caret"></span></a>
-            <ul className="dropdown-menu">
-            <li><Link to="/help">Visit help center</Link></li>
-            </ul>
-            </li>
-            <li>
-            <button className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" onClick = {this.handlerListProperties} >List your property</button>
-            {this.state.redirectVarOwner} 
-            {/* <button className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" onClick = {this.handlerListProperties}>List your property</button> */}
-            </li>
-            <li>
-            <Link to = "/home"><img src = {birhouselogo} height="45" width="45"></img></Link>
-            </li>
-            </ul>
-            </div>
-        </div>
-        </nav>
-       
+        <NavBarBlue></NavBarBlue>
         <div className="jumbotron">
         
         <div className = "home-inputs">
-
+            <br></br><br></br> 
         <div className="container">
-            <h2 className="display-3"><font color="white">Book beach houses, cabins,<br></br> condos and more, worldwide</font></h2>
+            <h2 className="display-3"><font color="white">Network, Collaborate and Explore!<br/><br/> Adventure is just a click away</font></h2>
         </div>
 
         <br></br><br></br>
-        <form>
-        <input type = "text" onChange = {this.handleDestination} className = "where" placeholder = "Destination"></input>
+        <form className = "searchform">
+        <input type = "text" onChange = {this.handleDestination} className = "where" placeholder = "Location"></input>
         &nbsp;&nbsp;
         <input type="date" onChange = {this.handleStartDate} className="form-landing"/>
         &nbsp;&nbsp;
-    
-        <input type="date" onChange = {this.handleEndDate} className="form-landing" />
-        &nbsp;&nbsp;
-        
-        <input type = "text" onChange = {this.handleAccomodates} className = "form-landing" placeholder = "Guests"></input>
-        &nbsp;&nbsp;
+
         <button onClick={this.searchResultsHandler} className="btn btn-primary btn-md searchbox-submit" type="button" tabIndex="5">
         Search
         </button>
@@ -227,18 +183,18 @@ class Home extends Component {
             {/* <div className="row"> */}
 
                 <div className="left-class">
-                <h4><font color="white"><b>Your whole vacation starts here</b></font></h4>
-                <p><font color="white">Choose a rental from the world's best selection</font></p>
+                <h4><font color="white"><b>Customize your selection</b></font></h4>
+                <p><font color="white">Choose an event tailored to suit your interests</font><br/><font color="white">Navigate to view recommendations page</font></p>
                 </div>
 
                 <div className="middle-class">
-                    <h4 ><font color="white"><b>Book and stay with confidence</b></font></h4>
-                    <p><font color="white">Secure payments, peace of mind</font></p>
+                    <h4 ><font color="white"><b>Never miss an interesting event</b></font></h4>
+                    <p><font color="white">You can use MeetUps to find and book events<br/> in any location</font></p>
                 </div>
 
                 <div className="right-class">
-                    <h4 ><font color="white"><b>Your vacation your way</b></font></h4>
-                    <p><font color="white">More space, more privacy, no compromises</font></p>       
+                    <h4 ><font color="white"><b>Host Events your way</b></font></h4>
+                    <p><font color="white">Get all your alerts at one place, whether it is for an event your friend invited you to or it is from MeetUps itself.</font></p>       
                 </div>
 
          {/*    </div> */}
