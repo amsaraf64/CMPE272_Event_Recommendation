@@ -24,6 +24,7 @@ import TravelerInbox from './Inbox/TravelerInbox';
 import OwnerInboxListings from './Inbox/OwnerInboxListings';
 import OwnerInbox from './Inbox/OwnerInbox';
 import HomePage from './Home/HomePage';
+import EventPage from './Events/HostEvent';
 
 //Create a Main Component
 class Main extends Component {
@@ -37,6 +38,7 @@ class Main extends Component {
                 <Route path="/signup" component={OwnerSignUp}/>
                 <Route path="/home" component={Home}/>
                 <Route path="/homepage" component={HomePage}/>
+                <Route path="/hostevent" component={EventPage}/>
                 <Route path="/landing" component={LandingPage}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/navbarsignup" component={NavBarSignUp}/>

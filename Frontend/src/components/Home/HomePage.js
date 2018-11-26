@@ -13,6 +13,9 @@ import './HomePage.css'
 import event1 from '../../images/TED-Talks-for-Small-Business-and-Entrepreneurs.jpg'
 import event2 from '../../images/fundraiser event .jpg'
 import event3 from '../../images/iotblockchain.jpg'
+import img1 from '../../images/presentation.svg'
+import img2 from '../../images/like.svg'
+import img3 from '../../images/reading.svg'
 import NavBarBlue from '../NavBarBlue/NavBarBlue';
 
 //create the Landing Component
@@ -318,20 +321,20 @@ class HomePage extends Component {
 
 <div className="row">
   <div className="col-lg-4">
-    <img className="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140"/>
+    <img className="img-circle" src={img1} alt="Generic placeholder image" width="140" height="140"/>
     <h2>Host an Event</h2>
     <p>In the mood for hosting a party, talk show, workshop, concert, or any event? We got it all covered for you!
     "MeetUps" provides an excellent platform to host events. To top it up, we provide you with an estimate of the attendance for the event which can help you plan much better! Go ahead and try our unique feature.</p>
-    <p><Link to="/eventform" className="btn btn-default" href="#" role="button">Details &raquo;</Link></p>
+    <p><Link to="/hostevent" className="btn btn-default" href="#" role="button">Details &raquo;</Link></p>
   </div>
   <div className="col-lg-4">
-    <img className="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140"/>
+    <img className="img-circle" src={img2} alt="Generic placeholder image" width="140" height="140"/>
     <h2>View Recommendations</h2>
     <p>Dive in for an ultimate experience of events specially handpicked for you. Through our efficient learning algorithm, we have come up with a method to recommend the best of the best events satisfying all your information.</p>
     <p><button className="btn btn-default" href="#" role="button">View details &raquo;</button></p>
   </div>
   <div className="col-lg-4">
-    <img className="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140"/>
+    <img className="img-circle" src={img3} alt="Generic placeholder image" width="140" height="140"/>
     <h2>Search Events</h2>
     <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
     <p><button className="btn btn-default" href="#" role="button">View details &raquo;</button></p>

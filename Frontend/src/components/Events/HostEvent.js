@@ -5,7 +5,7 @@ import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateProfile } from "../../actions";
+import { updateEvent } from "../../actions";
 import swal from 'sweetalert'
 import jwtdecode from 'jwt-decode';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
@@ -16,46 +16,19 @@ class HostEvent extends Component {
     constructor(props){
         super(props);         
         this.state = {         
-            profileData : [],
-            imageView : '',
-            profilepic : '',
-            firstname : null,
-            lastname : null,
-            aboutme : null,
-            country : null,
-            company : null,
-            languages : null,
-            citycountry : null,
-            gender : null
+            eventData : [],
+            eventname : null,
+            eventdescription: null,
+            eventdate : null,
+            starttime : null,
+            duration : null,
+            venue : null,
+            city : null,
+            state : null,
+            zip : null,
+            country : null
         };
     };
-
-        componentWillReceiveProps(nextProps) {
-        /*     if (nextProps.newPost) {
-              this.props.posts.unshift(nextProps.newPost);
-            } */
-            console.log("nextprops prof flag" + nextProps.profileUpdated);
-            if(nextProps.profileUpdated){
-                swal("Profile updated successfully", "","success");
-              }
-            else{
-                swal("Oops!Profile update failed", "","error");
-              } 
-          }
-
-          componentWillMount(){
-            console.log("Token in did mount" + localStorage.getItem("usertoken"))
-                if(localStorage.getItem("usertoken")){
-                    var tokenvalue = jwtdecode(localStorage.getItem("usertoken"));
-                    console.log("decoded  " + tokenvalue)
-                    this.setState({
-                        token: true,
-                        username: tokenvalue.user.firstname,
-                        usertype : tokenvalue.user.usertype
-                    })
-                }
-        }
-
         //get the profile data from backend  
         componentDidMount(){
             axios.defaults.withCredentials = true;
@@ -63,82 +36,90 @@ class HostEvent extends Component {
                     .then((response,err) => {
                          console.log("Profile Data: " + JSON.stringify(response.data));
                     this.setState({
-                        profileData : this.state.profileData.concat(response.data)
+                        eventData : this.state.eventData.concat(response.data)
                     });
 
-                    this.state.profileData.map(profile => { 
+                    this.state.eventData.map(event => { 
                         this.setState(
                             {
-                                firstname : profile.firstname,
-                                lastname : profile.lastname,
-                                aboutme : profile.aboutme,
-                                citycountry : profile.citycountry,
-                                company : profile.company,
-                                zipcode : profile.zipcode,
-                                country : profile.country,
-                                languages : profile.languages,
-                                gender : profile.gender,
-                                profilepic : profile.profilepic
+                                eventname : event.eventname,
+                                eventdescription : event.eventdescription,
+                                eventdate : event.eventdate,
+                                starttime : event.starttime,
+                                duration : event.duration,
+                                venue : event.venue,
+                                city : event.city,
+                                state : event.state,
+                                zip : event.zip,
+                                country : event.country
                             }
                         );
                         
                     });
-                    console.log("pic" + this.state.profileData[0].profilepic)
+                                        
                     
-                    axios.post('http://localhost:3001/download/' + this.state.profilepic)
-                    .then(response => {
-                        let imagePreview = 'data:image/jpg;base64, ' + response.data;
-                         this.setState({
-                           imageView : imagePreview
-                         });
-                    }); 
 
                 });
 
                 
         }
 
-    handleAboutMe = (e) => {
+    handleEventName = (e) => {
         this.setState({
-            aboutme : e.target.value
+            eventname : e.target.value
         })
     }
 
-    handleCityCountry = (e) => {
+    handleEventDescription = (e) => {
         this.setState({
-            citycountry : e.target.value
+            eventdescription : e.target.value
         })
     }
 
-    handleCompany = (e) => {
+    handleEventDate = (e) => {
         this.setState({
-            company : e.target.value
+            eventdate : e.target.value
         })
     }
 
+    handleStartTime = (e) => {
+        this.setState({
+            starttime : e.target.value
+        })
+    }
+
+    handleDuration = (e) => {
+        this.setState({
+            duration : e.target.value
+        })
+    }
+
+    handleVenue = (e) => {
+        this.setState({
+            venue : e.target.value
+        })
+    }
+    handleCity = (e) => {
+        this.setState({
+            city : e.target.value
+        })
+    }
+    handleState = (e) => {
+        this.setState({
+            state : e.target.value
+        })
+    }
+    handleZip = (e) => {
+        this.setState({
+            zip : e.target.value
+        })
+    }
     handleCountry = (e) => {
         this.setState({
             country : e.target.value
         })
     }
 
-    handleZipcode = (e) => {
-        this.setState({
-            zipcode : e.target.value
-        })
-    }
-
-    handleLanguages = (e) => {
-            this.setState({
-                languages : e.target.value
-            })
-    }
-
-    handleGender = (e) => {
-        this.setState({
-            gender : e.target.value
-        })
-    }
 
     onChange = (e) => {
         console.log("Inside profile on change" + e.target.files[0])
@@ -156,53 +137,26 @@ class HostEvent extends Component {
         formData.append('selectedFile', e.target.files[0]);
       /*   formData.append('emailid',this.state.emailid); */
         
-        axios.post('http://localhost:3001/photos', formData)
-            .then((result) => {
-
-                if(result.status === 200)
-                {        
-                    console.log("res data!!!" + result.data);
-                    axios.post('http://localhost:3001/download/'+ result.data)
-                    .then(response => {
-                    console.log("Image Res : ",response);
-                    let imagePreview = 'data:image/jpg;base64, ' + response.data;
-                    
-                    this.setState({
-                        imageView : imagePreview,       //encoded
-                        profilepic : result.data        //name of file
-                    })             
-                })
-                 }
-            });
+        
     }
   
 
-    handleUpdateProfile = (e) => {
+    handleCreateEvent= (e) => {
 
         var values = {
-            firstname : this.state.firstname,
-            lastname : this.state.lastname,
-            aboutme :  this.state.aboutme,
-            citycountry : this.state.citycountry,
-            company : this.state.company,
-            zipcode : this.state.zipcode,
-            languages : this.state.languages,
-            country : this.state.country,
-            gender : this.state.gender,
-            profilepic : this.state.profilepic
+            eventname :  this.state.eventname,
+            eventdescription : this.state.eventdescription,
+            eventdate : this.state.eventdate,
+            starttime : this.state.starttime,
+            duration : this.state.duration,
+            venue : this.state.venue,
+            city : this.state.city,
+            state : this.state.state,
+            zip : this.state.zip,
+            country : this.state.country
         }
         
-        // this.props.updateProfile(values, () => {
-        //     console.log("inside update profile")
-        //     console.log("profile updated?" + this.props.profileUpdated)
-        //     if(this.props.profileUpdated === true){
-        //         swal("Profile updated successfully", "","success");
-        //       }
-        //         else{
-        //           swal("Oops!Profile update failed", "","error");
-        //         }
-        //   });
-        this.props.updateProfile(values);
+        this.props.updateEvent(values);
         
     
         
@@ -221,53 +175,59 @@ class HostEvent extends Component {
         // }
         const { description, selectedFile } = this.state;
            
-        let profileDetails = this.state.profileData.map(profile => {
+        let EventDetails = this.state.eventData.map(event => {
             return(
                 <form>
                 <div className = "profile-form-inner">
-                    <h3>Profile Information</h3>
-
+                    <h3>Host New Event</h3>
+                 
                 <div>
-                    <input type="text" class="form-control input-lg js-input-field" id="profileFirstNameInput" placeholder="First name" value={profile.firstname} ></input>
+                    <input type="text" onChange = {this.handleEventName} class="form-control input-lg js-input-field" id="hostEventName" placeholder="Event Name" value={this.state.eventname}></input>
                 </div>
-
-                 <div>
-                    <input type="text" class="form-control input-lg js-input-field" id="profileLastNameInput" placeholder="Last name" value={profile.lastname} ></input>
-                </div>
-
-                 <div>
-                    <textarea onChange = {this.handleAboutMe} class="form-control input-lg js-input-field" id="profileAboutMeInput" placeholder = "About Me" value={this.state.aboutme} rows="4" required=""></textarea>
+                <div>
+                    <textarea onChange = {this.handleEventDescription} class="form-control input-lg js-input-field" id="hostEventDescription" placeholder = "Event Description" value={this.state.eventdescription} rows="4" required=""></textarea>
                 </div>
 
                 <div>
-                    <input type="text" onChange = {this.handleCompany} class="form-control input-lg js-input-field" id="profileCompanyInput" placeholder="Company" value={this.state.company}></input>
+                    <input type="date" onChange = {this.handleEventDate} class="form-control input-lg js-input-field" id="hostEventDate" placeholder="Event Date" value={this.state.eventdate}></input>
                 </div>
 
                 <div>
-                    <input type="text" onChange = {this.handleCountry} class="form-control input-lg js-input-field" id="profilecountryInput" placeholder="Country" value={this.state.country}></input>
+                    <input type="time" onChange = {this.handleStartTime} class="form-control input-lg js-input-field" id="hostStartTime" placeholder="Event Start time" value={this.state.starttime}></input>
                 </div>
 
                 <div>
-                    <input type="text" onChange = {this.handleCityCountry} class="form-control input-lg js-input-field" id="profileCityCountryInput" placeholder="My City" value={this.state.citycountry}></input>
+                    <input type="text" onChange = {this.handleEventDescription} class="form-control input-lg js-input-field" id="hostEventDuration" placeholder="Event Duration" value={this.state.duration}></input>
+                </div>
+                <div className = "profile-form-inner"></div>
+                    <h3>Venue Details</h3>
+
+                <div>
+                    <input type="text" onChange = {this.handleVenue} class="form-control input-lg js-input-field" id="eventVenue" placeholder="Venue Details" value={this.state.venue}></input>
+                </div>
+                <div>
+                    <input type="text" onChange = {this.handleCity} class="form-control input-lg js-input-field" id="eventCity" placeholder="City" value={this.state.city}></input>
+                </div>
+                <div>
+                    <input type="text" onChange = {this.handleState} class="form-control input-lg js-input-field" id="eventState" placeholder="State" value={this.state.state}></input>
+                </div>
+                <div>
+                    <input type="number" onChange = {this.handleZip} class="form-control input-lg js-input-field" id="eventZip" placeholder="Zip code" value={this.state.zip}></input>
                 </div>
 
                 <div>
-                    <input type="text" onChange = {this.handleZipcode} class="form-control input-lg js-input-field" id="profileZipcodeInput" placeholder="ZipCode" value={this.state.zipcode}></input>
-                </div>
-
-                 <div>
-                    <input type="text" onChange = {this.handleLanguages} class="form-control input-lg js-input-field" id="profileLanguagesInput" placeholder="Languages" value={this.state.languages}></input>
+                    <input type="text" onChange = {this.handleCountry} class="form-control input-lg js-input-field" id="eventCountry" placeholder="Country" value={this.state.country}></input>
                 </div>
                 
-                <div>
-                    <input type="text" onChange = {this.handleGender} class="form-control input-lg js-input-field" id="profileLanguagesInput" placeholder="Gender" value={this.state.gender}></input>
-                </div>
+                
+
+                
               
             </div>
 
             <div>
-            <button onClick = {this.handleUpdateProfile} class="btn btn-primary btn-md searchbox-submit save-btn" type="button" tabindex="5">
-            Update input
+            <button onClick = {this.handleCreateName} class="btn btn-primary btn-md searchbox-submit save-btn" type="button" tabindex="5">
+            Create Event
             </button>
             </div>
 
@@ -292,16 +252,16 @@ class HostEvent extends Component {
                     
                     <div>
                     <label  for="uploadPhotoInput" name="description" value={description}
-                    onChange={this.onChange} multiple ><img src={this.state.imageView} class="avatar img-circle img-thumbnail" alt="avatar"></img>
+                    onChange={this.onChange} multiple >
                     </label>
                     <input type="file" id="uploadPhotoInput" name="selectedFile" onChange={this.onChange} multiple/>
                     </div>
                     <h2 class="user-name">{this.state.firstname}</h2>
-                    <p class="text-muted"><span class="user-location"></span>Member since 2018</p>
+                    
             </div>
 
             <div className = "profile-form-main">
-              {profileDetails}
+              {EventDetails}
             </div>
             
             </div>
@@ -317,4 +277,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps, {updateProfile})(HostEvent);
+export default connect(mapStateToProps, {updateEvent})(HostEvent);

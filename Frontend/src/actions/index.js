@@ -198,6 +198,28 @@ export const updateProfile =  (values) => async dispatch =>  {
       } */
     //})
 }
+
+export const updateEvent =  (values) => async dispatch =>  {
+  console.log("inside submit profile")
+  axios.defaults.withCredentials = true;
+    const res = await axios
+    .post(`${ROOT_URL}/updateevent`, values)
+    /* .then(res  => { */
+      console.log("res profile" +  res.status ); 
+      console.log(res)
+      if(res.status === 200){ 
+      dispatch({
+        type : PROFILE_POST_SUCCESSFUL,
+        payload : res
+      })}/* else {
+        console.log("res" + res);
+        dispatch({
+          type : PROFILE_POST_FAILED,
+          payload: false
+        })
+      } */
+    //})
+}
   
 
 export const searchProperties =  (values) => async dispatch =>  {
